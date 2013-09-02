@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import ssl
+import logging
 
 from tornado.options import define, options
 from tornado.options import parse_command_line
@@ -10,6 +11,8 @@ from tornado.ioloop import IOLoop
 __all__ = [
     'run_server'
 ]
+
+logger = logging.getLogger()
 
 define('cert_file', default='fixtures/server/certs/server.crt',
        help='Path to the server certificate file')
@@ -32,5 +35,5 @@ def run_server(urls):
 
     server = HTTPServer(application, ssl_options=ssl_options)
     server.listen(options.port)
-    print options.port
+    logging.info('Server listening on %(port)s' % {'port': options.port})
     IOLoop.instance().start()
