@@ -6,6 +6,7 @@ import requests
 from requests.exceptions import ConnectionError
 
 from token_storage_client.utils import method_decorator, retry_on_error
+from token_storage_client.errors import UserDoesNotExist
 
 
 class BaseClient(object):
@@ -15,8 +16,8 @@ class BaseClient(object):
         self._client_key = client_key
         self._ca_certs = ca_certs
 
-        self._verify_arg = self._ca_certs
         self._cert_arg = (self._client_cert, self._client_key)
+        self._verify_arg = self._ca_certs
 
 
 class GetClient(BaseClient):
@@ -28,6 +29,10 @@ class GetClient(BaseClient):
         url = '%(url)s//users/%(user_id)s/refresh_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
+
+        if response.status_code == httplib.NOT_FOUND:
+            raise UserDoesNotExist(user_id=user_id)
+
         data = response.json()
         return data['refresh_token']
 
