@@ -11,6 +11,7 @@ def retry_on_error(retry_count, delay=1, backoff=1.5, exceptions=(Exception,)):
 
     def catch_exception(func):
         def decorator(*args, **kwargs):
+            last_e = None
             m_retry_count = retry_count
             m_delay = delay
 
@@ -18,15 +19,19 @@ def retry_on_error(retry_count, delay=1, backoff=1.5, exceptions=(Exception,)):
                 try:
                     return_value = func(*args, **kwargs)
                 except exceptions, e:
+                    last_e = e
                     logger.debug('Method %(name)s throw an exception: '
                                  '"%(e)s", retrying...' %
                                  {'name': func.__name__, 'e': str(e)})
-                    m_retry_count -= 1
-                    time.sleep(m_delay)
 
+                    time.sleep(m_delay)
                     m_delay *= backoff
                 else:
                     return return_value
+                finally:
+                    m_retry_count -= 1
+
+            raise last_e
 
         return wraps(func)(decorator)
     return catch_exception
