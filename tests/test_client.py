@@ -18,11 +18,23 @@ class ClientTestCase(unittest.TestCase):
         kwargs = {'client_cert': client_cert, 'client_key': client_key,
                   'ca_certs': ca_certs}
 
-        self.get_client = GetClient(server_urls=['https://localhost:8888'], **kwargs)
-        self.set_client = SetClient(server_urls=['https://localhost:8889'], **kwargs)
+        self.get_client = GetClient(server_urls=['https://localhost:8888'],
+                                    **kwargs)
+        self.set_client = SetClient(server_urls=['https://localhost:9999'],
+                                    **kwargs)
 
     def test_get_doesnt_exist(self):
-        self.assertRaises(UserDoesNotExist, self.get_client.get, user_id='inexistent')
+        self.assertRaises(UserDoesNotExist, self.get_client.get,
+                          user_id='inexistent')
+
+    def test_set(self):
+        self.assertRaises(UserDoesNotExist, self.get_client.get,
+                          user_id='user1')
+
+        self.assertTrue(self.set_client.set('user1', 'footoken1'))
+        self.assertEqual(self.get_client.get('user1'), 'footoken1')
+        self.assertTrue(self.set_client.set('user1', 'footoken2'))
+        self.assertEqual(self.get_client.get('user1'), 'footoken2')
 
 if __name__ == '__main__':
     sys.exit(unittest.main())
