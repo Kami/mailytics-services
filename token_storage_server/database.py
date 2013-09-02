@@ -1,9 +1,12 @@
 import sqlite3 as sqlite
 
-connection = sqlite.connect('fixtures/database.sqlite')
+from tornado.options import options
+
+connection = sqlite.connect(options.database_path)
 
 __all__ = [
-    'get_refresh_token_for_user'
+    'get_refresh_token_for_user',
+    'update_user_refresh_token'
 ]
 
 
