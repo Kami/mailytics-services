@@ -7,11 +7,12 @@ from token_storage_server.database import get_refresh_token_for_user
 from token_storage_server.database import update_user_refresh_token
 
 __all__ = [
-    'RefreshTokenHandler'
+    'RefreshTokenGetHandler',
+    'RefreshTokenSetHandler',
 ]
 
 
-class RefreshTokenHandler(JsonRequestHandler):
+class RefreshTokenGetHandler(JsonRequestHandler):
     def get(self, user_id):
         refresh_token = get_refresh_token_for_user(user_id=user_id)
 
@@ -22,6 +23,8 @@ class RefreshTokenHandler(JsonRequestHandler):
         data = {'refresh_token': refresh_token}
         self.write_json(data, status_code=201)
 
+
+class RefreshTokenSetHandler(JsonRequestHandler):
     def put(self, user_id):
         data = self.parse_json()
         # TODO: validate

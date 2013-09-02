@@ -7,7 +7,9 @@ from tornado.web import Application
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
-from token_storage_server.urls import urls
+__all__ = [
+    'run_server'
+]
 
 define('cert_file', default='fixtures/server/certs/server.crt',
        help='Path to the server certificate file')
@@ -17,7 +19,7 @@ define('ca_file', default='fixtures/ca/myCA.crt',
        help='Path to the CA file')
 
 
-def run_server():
+def run_server(urls):
     parse_command_line()
     debug = options.logging == 'debug'
     application = Application(urls, debug=debug)
@@ -29,8 +31,6 @@ def run_server():
     )
 
     server = HTTPServer(application, ssl_options=ssl_options)
-    server.listen(8888)
+    server.listen(options.port)
+    print options.port
     IOLoop.instance().start()
-
-if __name__ == '__main__':
-    run_server()
