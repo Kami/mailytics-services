@@ -55,13 +55,22 @@ class TestCommand(Command):
 
     def _run_mock_servers(self):
         #set_server = TCPProcessRunner()
-        script = pjoin(THIS_DIR, 'token_storage_server/server.py')
-        args = [script]
+        script = pjoin(THIS_DIR, 'bin/token-storage-get-server')
+        args = [script, '--port=8888']
         wait_for_address = ('127.0.0.1', 8888)
         get_server = TCPProcessRunner(args=args,
                                       wait_for_address=wait_for_address,
                                       log_path='get_server.log')
         get_server.setUp()
+
+        script = pjoin(THIS_DIR, 'bin/token-storage-set-server')
+        args = [script, '--port=9999']
+        wait_for_address = ('127.0.0.1', 9999)
+        set_server = TCPProcessRunner(args=args,
+                                      wait_for_address=wait_for_address,
+                                      log_path='set_server.log')
+        set_server.setUp()
+
 
 setup(
     name='',
