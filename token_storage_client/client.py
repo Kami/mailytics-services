@@ -26,7 +26,7 @@ class GetClient(BaseClient):
     def get(self, user_id):
         url = random.choice(self._server_urls)
         values = {'url': url, 'user_id': user_id}
-        url = '%(url)s//users/%(user_id)s/refresh_token' % values
+        url = '%(url)s/users/%(user_id)s/refresh_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
 
@@ -44,13 +44,13 @@ class SetClient(BaseClient):
         # TODO: This method should try to re-try
         url = random.choice(self._server_urls)
         values = {'url': url, 'user_id': user_id}
-        url = '%(url)s//users/%(user_id)s/refresh_token' % values
+        url = '%(url)s/users/%(user_id)s/refresh_token' % values
         data = json.dumps({'refresh_token': refresh_token})
 
         response = requests.put(url, data=data, cert=self._cert_arg,
                                 verify=self._verify_arg)
         if response.status_code != httplib.NO_CONTENT:
             raise Exception('Failed to save refresh token: %s' %
-                            (response.body))
+                            (response.text))
 
         return True
