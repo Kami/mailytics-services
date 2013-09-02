@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+import os
 import ssl
 import logging
 
@@ -20,10 +20,17 @@ define('key_file', default='fixtures/server/keys/server.key',
        help='Path to the server certificate key file')
 define('ca_file', default='fixtures/ca/myCA.crt',
        help='Path to the CA file')
+define('database_path', default='database.sqlite',
+       help='Path to the database file')
+
 
 
 def run_server(urls):
     parse_command_line()
+
+    if not os.path.exists(options.database_path):
+        raise ValueError('Database file doesn\'t exist')
+
     debug = options.logging == 'debug'
     application = Application(urls, debug=debug)
     ssl_options = dict(
