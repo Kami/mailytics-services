@@ -5,6 +5,7 @@ from tornado.web import HTTPError
 from token_storage_server.handlers.base import JsonRequestHandler
 from token_storage_server.database import get_refresh_token_for_user
 from token_storage_server.database import update_user_refresh_token
+from token_storage_server.database import delete_user_refresh_token
 
 __all__ = [
     'RefreshTokenGetHandler',
@@ -32,4 +33,8 @@ class RefreshTokenSetHandler(JsonRequestHandler):
 
         update_user_refresh_token(user_id=user_id,
                                   refresh_token=refresh_token)
+        self.set_status(status_code=httplib.NO_CONTENT)
+
+    def delete(self, user_id):
+        delete_user_refresh_token(user_id=user_id)
         self.set_status(status_code=httplib.NO_CONTENT)
