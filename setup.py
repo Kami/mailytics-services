@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import time
 import logging
+import subprocess
 
 from glob import glob
 from os.path import splitext, basename, join as pjoin
@@ -36,7 +38,9 @@ class TestCommand(Command):
         pass
 
     def run(self):
+        self._flush_db()
         self._run_mock_servers()
+
         status = self._run_tests()
         sys.exit(status)
 
@@ -52,6 +56,13 @@ class TestCommand(Command):
         t = TextTestRunner(verbosity=2)
         res = t.run(tests)
         return not res.wasSuccessful()
+
+    def _flush_db(self):
+        cwd = os.getcwd()
+        args = ['scripts/flush-db.sh']
+        subprocess.Popen(args, shell=True, cwd=cwd, stdout=sys.stdout,
+                         stderr=sys.stdout)
+        time.sleep(0.5)
 
     def _run_mock_servers(self):
         #set_server = TCPProcessRunner()
