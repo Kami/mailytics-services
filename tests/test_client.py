@@ -36,5 +36,16 @@ class ClientTestCase(unittest.TestCase):
         self.assertTrue(self.set_client.set('user1', 'footoken2'))
         self.assertEqual(self.get_client.get('user1'), 'footoken2')
 
+    def test_delete(self):
+        self.assertRaises(UserDoesNotExist, self.get_client.get,
+                          user_id='user2')
+
+        self.assertTrue(self.set_client.delete('user2'))
+        self.assertTrue(self.set_client.set('user2', 'footoken2'))
+        self.assertEqual(self.get_client.get('user2'), 'footoken2')
+        self.assertTrue(self.set_client.delete('user2'))
+        self.assertRaises(UserDoesNotExist, self.get_client.get,
+                          user_id='user2')
+
 if __name__ == '__main__':
     sys.exit(unittest.main())

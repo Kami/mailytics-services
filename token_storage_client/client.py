@@ -41,7 +41,6 @@ class SetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                       exceptions=(ConnectionError,)))
     def set(self, user_id, refresh_token):
-        # TODO: This method should try to re-try
         url = random.choice(self._server_urls)
         values = {'url': url, 'user_id': user_id}
         url = '%(url)s/users/%(user_id)s/refresh_token' % values
@@ -51,6 +50,21 @@ class SetClient(BaseClient):
                                 verify=self._verify_arg)
         if response.status_code != httplib.NO_CONTENT:
             raise Exception('Failed to save refresh token: %s' %
+                            (response.text))
+
+        return True
+
+    @method_decorator(retry_on_error(retry_count=3,
+                      exceptions=(ConnectionError,)))
+    def delete(self, user_id):
+        url = random.choice(self._server_urls)
+        values = {'url': url, 'user_id': user_id}
+        url = '%(url)s/users/%(user_id)s/refresh_token' % values
+
+        response = requests.delete(url, cert=self._cert_arg,
+                                   verify=self._verify_arg)
+        if response.status_code != httplib.NO_CONTENT:
+            raise Exception('Failed to delete refresh token: %s' %
                             (response.text))
 
         return True
