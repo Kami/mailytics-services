@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import ssl
 
 from tornado.options import define, options
