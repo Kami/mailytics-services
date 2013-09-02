@@ -6,7 +6,7 @@ from tornado.web import Application
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
-from token_storage.urls import urls
+from token_storage_server.urls import urls
 
 define('cert_file', default='fixtures/server/certs/server.crt',
        help='Path to the server certificate file')

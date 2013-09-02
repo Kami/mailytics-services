@@ -2,9 +2,9 @@ import httplib
 
 from tornado.web import HTTPError
 
-from token_storage.handlers.base import JsonRequestHandler
-from token_storage.database import get_refresh_token_for_user
-from token_storage.database import update_user_refresh_token
+from token_storage_server.handlers.base import JsonRequestHandler
+from token_storage_server.database import get_refresh_token_for_user
+from token_storage_server.database import update_user_refresh_token
 
 __all__ = [
     'RefreshTokenHandler'
