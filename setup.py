@@ -20,6 +20,19 @@ THIS_DIR = os.path.abspath(os.path.split(__file__)[0])
 TEST_PATHS = ['tests']
 
 
+def forbid_publish():
+    argv = sys.argv
+    blacklist = ['register', 'upload']
+
+    for command in blacklist:
+        if command in argv:
+            values = {'command': command}
+            raise RuntimeError('Command "%(command)s" has been blacklisted' %
+                               values)
+
+forbid_publish()
+
+
 class TestCommand(Command):
     description = 'run test suite'
     user_options = []
