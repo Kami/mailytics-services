@@ -24,12 +24,14 @@ define('database_path', default='database.sqlite',
        help='Path to the database file')
 
 
-
 def run_server(urls):
     parse_command_line()
 
     if not os.path.exists(options.database_path):
         raise ValueError('Database file doesn\'t exist')
+
+    if options.secrets_path and not os.path.exists(options.secrets_path):
+        raise ValueError('secrets_path file doesn\'t exist')
 
     debug = options.logging == 'debug'
     application = Application(urls, debug=debug)
