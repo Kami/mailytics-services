@@ -6,6 +6,8 @@ from token_storage_server.urls import get_urls
 
 define('port', default=7878,
        help='Port to listen on')
+define('secrets_path', default='fixtures/client_secrets.json',
+       help='Path to the file with google app secrets')
 
 if __name__ == '__main__':
     run_server(urls=get_urls)
