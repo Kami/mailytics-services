@@ -13,7 +13,7 @@ class JsonRequestHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         self.set_status(status_code=status_code)
         data = json.dumps(data)
-        self.write(data)
+        self.finish(data)
 
     def parse_json(self):
         try:
