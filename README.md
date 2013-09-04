@@ -9,5 +9,5 @@ http://lakm.us/logit/2013/01/https-server-client-certificate-pair-1-generate-ope
 ## Testing with cURL
 
 ```bash
-curl -vvv https://localhost:8888/ --cert client/certs/client1.crt --key client/keys/client1.key --cacert ca/myCA.crt
+curl -vvv https://localhost:7878/ --cert fixtures/client/certs/client1.crt --key fixtures/client/keys/client1.key --cacert fixtures/ca/myCA.crt
 ```
