@@ -23,7 +23,12 @@ class BaseClient(object):
 class GetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                                      exceptions=(ConnectionError,)))
-    def get(self, user_id):
+    def get_access_token(self, user_id):
+        pass
+
+    @method_decorator(retry_on_error(retry_count=3,
+                                     exceptions=(ConnectionError,)))
+    def get_refresh_token(self, user_id):
         url = random.choice(self._server_urls)
         values = {'url': url, 'user_id': user_id}
         url = '%(url)s/users/%(user_id)s/refresh_token' % values
