@@ -24,7 +24,17 @@ class GetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                                      exceptions=(ConnectionError,)))
     def get_access_token(self, user_id):
-        pass
+        url = random.choice(self._server_urls)
+        values = {'url': url, 'user_id': user_id}
+        url = '%(url)s/users/%(user_id)s/access_token' % values
+        response = requests.get(url, cert=self._cert_arg,
+                                verify=self._verify_arg)
+
+        if response.status_code == httplib.NOT_FOUND:
+            raise UserDoesNotExist(user_id=user_id)
+
+        data = response.json()
+        return data['access_token']
 
     @method_decorator(retry_on_error(retry_count=3,
                                      exceptions=(ConnectionError,)))

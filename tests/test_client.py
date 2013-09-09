@@ -27,10 +27,15 @@ class ClientTestCase(unittest.TestCase):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
                           user_id='inexistent')
 
+    def test_get_access_token_doesnt_exist(self):
+        self.assertRaises(UserDoesNotExist, self.get_client.get_access_token,
+                          user_id='inexistent')
+
     def test_set(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
                           user_id='user1')
 
+        # get_refresh_token
         self.assertTrue(self.set_client.set('user1', 'footoken1'))
 
         token = self.get_client.get_refresh_token('user1')
@@ -39,6 +44,9 @@ class ClientTestCase(unittest.TestCase):
 
         token = self.get_client.get_refresh_token('user1')
         self.assertEqual(token, 'footoken2')
+
+        # get_access_token
+        # TODO: mock google api server url
 
     def test_delete(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
