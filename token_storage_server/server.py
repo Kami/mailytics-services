@@ -30,7 +30,8 @@ def run_server(urls):
     if not os.path.exists(options.database_path):
         raise ValueError('Database file doesn\'t exist')
 
-    if options.secrets_path and not os.path.exists(options.secrets_path):
+    if hasattr(options, 'secrets_path') and \
+       not os.path.exists(options.secrets_path):
         raise ValueError('secrets_path file doesn\'t exist')
 
     debug = options.logging == 'debug'
