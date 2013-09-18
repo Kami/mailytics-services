@@ -11,7 +11,7 @@ THIS_DIR = os.path.abspath(os.path.split(__file__)[0])
 
 class ServerTestCase(unittest.TestCase):
     def setUp(self):
-        self.url = 'https://localhost:8888/users/user1/refresh_token'
+        self.url = 'https://localhost:8888/'
         self.client_cert = pjoin(THIS_DIR,
                                  '../fixtures/client/certs/client1.crt')
         self.client_key = pjoin(THIS_DIR,
