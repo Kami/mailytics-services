@@ -9,10 +9,10 @@ __all__ = [
 ]
 
 get_urls = [
-    (r'/users/(\w+)/refresh_token', RefreshTokenGetHandler),
-    (r'/users/(\w+)/access_token', AccessTokenHandler)
+    (r'/users/(?P<account_uuid>\w+)/refresh_token', RefreshTokenGetHandler),
+    (r'/users/(?P<account_uuid>\w+)/access_token', AccessTokenHandler)
 ]
 
 set_urls = [
-    (r'/users/(\w+)/refresh_token', RefreshTokenSetHandler)
+    (r'/users/(?P<account_uuid>\w+)/refresh_token', RefreshTokenSetHandler)
 ]
