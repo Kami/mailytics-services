@@ -36,11 +36,13 @@ class ClientTestCase(unittest.TestCase):
                           user_id='user1')
 
         # get_refresh_token
-        self.assertTrue(self.set_client.set('user1', 'footoken1'))
+        self.assertTrue(self.set_client.set_refresh_token('user1',
+                                                          'footoken1'))
 
         token = self.get_client.get_refresh_token('user1')
         self.assertEqual(token, 'footoken1')
-        self.assertTrue(self.set_client.set('user1', 'footoken2'))
+        self.assertTrue(self.set_client.set_refresh_token('user1',
+                                                          'footoken2'))
 
         token = self.get_client.get_refresh_token('user1')
         self.assertEqual(token, 'footoken2')
@@ -53,7 +55,8 @@ class ClientTestCase(unittest.TestCase):
                           user_id='user2')
 
         self.assertTrue(self.set_client.delete('user2'))
-        self.assertTrue(self.set_client.set('user2', 'footoken2'))
+        self.assertTrue(self.set_client.set_refresh_token('user2',
+                                                          'footoken2'))
         token = self.get_client.get_refresh_token('user2')
         self.assertEqual(token, 'footoken2')
         self.assertTrue(self.set_client.delete('user2'))

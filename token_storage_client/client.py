@@ -55,7 +55,7 @@ class GetClient(BaseClient):
 class SetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                       exceptions=(ConnectionError,)))
-    def set(self, user_id, refresh_token):
+    def set_refresh_token(self, user_id, refresh_token):
         url = random.choice(self._server_urls)
         values = {'url': url, 'user_id': user_id}
         url = '%(url)s/users/%(user_id)s/refresh_token' % values
