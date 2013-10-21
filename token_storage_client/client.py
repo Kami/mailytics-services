@@ -23,30 +23,30 @@ class BaseClient(object):
 class GetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                                      exceptions=(ConnectionError,)))
-    def get_access_token(self, user_id):
+    def get_access_token(self, account_uuid):
         url = random.choice(self._server_urls)
-        values = {'url': url, 'user_id': user_id}
-        url = '%(url)s/users/%(user_id)s/access_token' % values
+        values = {'url': url, 'account_uuid': account_uuid}
+        url = '%(url)s/users/%(account_uuid)s/access_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
 
         if response.status_code == httplib.NOT_FOUND:
-            raise UserDoesNotExist(user_id=user_id)
+            raise UserDoesNotExist(account_uuid=account_uuid)
 
         data = response.json()
         return data['access_token']
 
     @method_decorator(retry_on_error(retry_count=3,
                                      exceptions=(ConnectionError,)))
-    def get_refresh_token(self, user_id):
+    def get_refresh_token(self, account_uuid):
         url = random.choice(self._server_urls)
-        values = {'url': url, 'user_id': user_id}
-        url = '%(url)s/users/%(user_id)s/refresh_token' % values
+        values = {'url': url, 'account_uuid': account_uuid}
+        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
 
         if response.status_code == httplib.NOT_FOUND:
-            raise UserDoesNotExist(user_id=user_id)
+            raise UserDoesNotExist(account_uuid=account_uuid)
 
         data = response.json()
         return data['refresh_token']
@@ -55,10 +55,10 @@ class GetClient(BaseClient):
 class SetClient(BaseClient):
     @method_decorator(retry_on_error(retry_count=3,
                       exceptions=(ConnectionError,)))
-    def set_refresh_token(self, user_id, refresh_token):
+    def set_refresh_token(self, account_uuid, refresh_token):
         url = random.choice(self._server_urls)
-        values = {'url': url, 'user_id': user_id}
-        url = '%(url)s/users/%(user_id)s/refresh_token' % values
+        values = {'url': url, 'account_uuid': account_uuid}
+        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
         data = json.dumps({'refresh_token': refresh_token})
 
         response = requests.put(url, data=data, cert=self._cert_arg,
@@ -71,10 +71,10 @@ class SetClient(BaseClient):
 
     @method_decorator(retry_on_error(retry_count=3,
                       exceptions=(ConnectionError,)))
-    def delete(self, user_id):
+    def delete(self, account_uuid):
         url = random.choice(self._server_urls)
-        values = {'url': url, 'user_id': user_id}
-        url = '%(url)s/users/%(user_id)s/refresh_token' % values
+        values = {'url': url, 'account_uuid': account_uuid}
+        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
 
         response = requests.delete(url, cert=self._cert_arg,
                                    verify=self._verify_arg)

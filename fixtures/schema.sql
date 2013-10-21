@@ -1,10 +1,10 @@
 BEGIN;
 
 CREATE TABLE IF NOT EXISTS refresh_tokens (
-  user_id TEXT PRIMARY KEY,
+  account_uuid TEXT PRIMARY KEY,
   refresh_token TEXT NOT NULL,
 
-  UNIQUE(user_id),
+  UNIQUE(account_uuid),
   UNIQUE(refresh_token)
 );
 

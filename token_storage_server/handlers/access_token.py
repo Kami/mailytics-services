@@ -15,8 +15,8 @@ __all__ = [
 class AccessTokenHandler(JsonRequestHandler):
     @asynchronous
     @engine
-    def get(self, user_id):
-        refresh_token = get_refresh_token_for_user(user_id=user_id)
+    def get(self, account_uuid):
+        refresh_token = get_refresh_token_for_user(account_uuid=account_uuid)
 
         if not refresh_token:
             raise HTTPError(status_code=httplib.NOT_FOUND,

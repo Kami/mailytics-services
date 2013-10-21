@@ -4,6 +4,6 @@ __all__ = [
 
 
 class UserDoesNotExist(Exception):
-    def __init__(self, user_id):
-        self.user_id = user_id
-        self.message = 'User %s does not exist' % (self.user_id)
+    def __init__(self, account_uuid):
+        self.account_uuid = account_uuid
+        self.message = 'Account %s does not exist' % (self.account_uuid)

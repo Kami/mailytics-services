@@ -14,8 +14,8 @@ __all__ = [
 
 
 class RefreshTokenGetHandler(JsonRequestHandler):
-    def get(self, user_id):
-        refresh_token = get_refresh_token_for_user(user_id=user_id)
+    def get(self, account_uuid):
+        refresh_token = get_refresh_token_for_user(account_uuid=account_uuid)
 
         if not refresh_token:
             raise HTTPError(status_code=httplib.NOT_FOUND,
@@ -26,15 +26,15 @@ class RefreshTokenGetHandler(JsonRequestHandler):
 
 
 class RefreshTokenSetHandler(JsonRequestHandler):
-    def put(self, user_id):
+    def put(self, account_uuid):
         data = self.parse_json()
         # TODO: validate
         refresh_token = data['refresh_token']
 
-        update_user_refresh_token(user_id=user_id,
+        update_user_refresh_token(account_uuid=account_uuid,
                                   refresh_token=refresh_token)
         self.set_status(status_code=httplib.NO_CONTENT)
 
-    def delete(self, user_id):
-        delete_user_refresh_token(user_id=user_id)
+    def delete(self, account_uuid):
+        delete_user_refresh_token(account_uuid=account_uuid)
         self.set_status(status_code=httplib.NO_CONTENT)

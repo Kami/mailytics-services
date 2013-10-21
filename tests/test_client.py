@@ -25,15 +25,15 @@ class ClientTestCase(unittest.TestCase):
 
     def test_get_refresh_token_doesnt_exist(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          user_id='inexistent')
+                          account_uuid='inexistent')
 
     def test_get_access_token_doesnt_exist(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_access_token,
-                          user_id='inexistent')
+                          account_uuid='inexistent')
 
     def test_set(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          user_id='user1')
+                          account_uuid='user1')
 
         # get_refresh_token
         self.assertTrue(self.set_client.set_refresh_token('user1',
@@ -52,7 +52,7 @@ class ClientTestCase(unittest.TestCase):
 
     def test_delete(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          user_id='user2')
+                          account_uuid='user2')
 
         self.assertTrue(self.set_client.delete('user2'))
         self.assertTrue(self.set_client.set_refresh_token('user2',
@@ -61,7 +61,7 @@ class ClientTestCase(unittest.TestCase):
         self.assertEqual(token, 'footoken2')
         self.assertTrue(self.set_client.delete('user2'))
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          user_id='user2')
+                          account_uuid='user2')
 
 if __name__ == '__main__':
     sys.exit(unittest.main())

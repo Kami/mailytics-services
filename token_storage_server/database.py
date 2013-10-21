@@ -11,10 +11,10 @@ __all__ = [
 ]
 
 
-def get_refresh_token_for_user(user_id):
+def get_refresh_token_for_user(account_uuid):
     cursor = connection.cursor()
-    query = 'SELECT refresh_token FROM refresh_tokens WHERE user_id = ?'
-    args = [user_id]
+    query = 'SELECT refresh_token FROM refresh_tokens WHERE account_uuid = ?'
+    args = [account_uuid]
     cursor.execute(query, args)
     row = cursor.fetchone()
 
@@ -25,18 +25,18 @@ def get_refresh_token_for_user(user_id):
     return refresh_token
 
 
-def update_user_refresh_token(user_id, refresh_token):
+def update_user_refresh_token(account_uuid, refresh_token):
     cursor = connection.cursor()
-    query = ('INSERT OR REPLACE INTO refresh_tokens (user_id,refresh_token) '
+    query = ('INSERT OR REPLACE INTO refresh_tokens (account_uuid,refresh_token) '
              'VALUES (?,?)')
-    args = [user_id, refresh_token]
+    args = [account_uuid, refresh_token]
     cursor.execute(query, args)
     connection.commit()
 
 
-def delete_user_refresh_token(user_id):
+def delete_user_refresh_token(account_uuid):
     cursor = connection.cursor()
-    query = 'DELETE FROM refresh_tokens WHERE user_id = ?'
-    args = [user_id]
+    query = 'DELETE FROM refresh_tokens WHERE account_uuid = ?'
+    args = [account_uuid]
     cursor.execute(query, args)
     connection.commit()
