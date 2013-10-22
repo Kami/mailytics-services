@@ -40,7 +40,7 @@ class GetClient(BaseClient):
     def get_access_token(self, account_uuid):
         url = random.choice(self._server_urls)
         values = {'url': url, 'account_uuid': account_uuid}
-        url = '%(url)s/users/%(account_uuid)s/access_token' % values
+        url = '%(url)s/accounts/%(account_uuid)s/access_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
 
@@ -55,7 +55,7 @@ class GetClient(BaseClient):
     def get_refresh_token(self, account_uuid):
         url = random.choice(self._server_urls)
         values = {'url': url, 'account_uuid': account_uuid}
-        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
+        url = '%(url)s/accounts/%(account_uuid)s/refresh_token' % values
         response = requests.get(url, cert=self._cert_arg,
                                 verify=self._verify_arg)
 
@@ -72,7 +72,7 @@ class SetClient(BaseClient):
     def set_refresh_token(self, account_uuid, refresh_token):
         url = random.choice(self._server_urls)
         values = {'url': url, 'account_uuid': account_uuid}
-        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
+        url = '%(url)s/accounts/%(account_uuid)s/refresh_token' % values
         data = json.dumps({'refresh_token': refresh_token})
 
         response = requests.put(url, data=data, cert=self._cert_arg,
@@ -88,7 +88,7 @@ class SetClient(BaseClient):
     def delete(self, account_uuid):
         url = random.choice(self._server_urls)
         values = {'url': url, 'account_uuid': account_uuid}
-        url = '%(url)s/users/%(account_uuid)s/refresh_token' % values
+        url = '%(url)s/accounts/%(account_uuid)s/refresh_token' % values
 
         response = requests.delete(url, cert=self._cert_arg,
                                    verify=self._verify_arg)
