@@ -2,16 +2,29 @@ import sqlite3 as sqlite
 
 from tornado.options import options
 
-connection = sqlite.connect(options.database_path)
-
 __all__ = [
     'get_refresh_token_for_user',
     'update_user_refresh_token',
     'delete_user_refresh_token'
 ]
 
+connection = None
+
+
+def get_connection():
+    """
+    Lazy establish a connection.
+    """
+    global connection
+
+    if not connection:
+        connection = sqlite.connect(options.database_path)
+
+    return connection
+
 
 def get_refresh_token_for_user(account_uuid):
+    connection = get_connection()
     cursor = connection.cursor()
     query = 'SELECT refresh_token FROM refresh_tokens WHERE account_uuid = ?'
     args = [account_uuid]
@@ -26,6 +39,7 @@ def get_refresh_token_for_user(account_uuid):
 
 
 def update_user_refresh_token(account_uuid, refresh_token):
+    connection = get_connection()
     cursor = connection.cursor()
     query = ('INSERT OR REPLACE INTO refresh_tokens (account_uuid,refresh_token) '
              'VALUES (?,?)')
@@ -35,6 +49,7 @@ def update_user_refresh_token(account_uuid, refresh_token):
 
 
 def delete_user_refresh_token(account_uuid):
+    connection = get_connection()
     cursor = connection.cursor()
     query = 'DELETE FROM refresh_tokens WHERE account_uuid = ?'
     args = [account_uuid]
