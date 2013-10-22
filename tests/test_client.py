@@ -31,7 +31,7 @@ class ClientTestCase(unittest.TestCase):
         self.assertRaises(UserDoesNotExist, self.get_client.get_access_token,
                           account_uuid='inexistent')
 
-    def test_set(self):
+    def test_set_refresh_token(self):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
                           account_uuid='user1')
 
@@ -51,17 +51,18 @@ class ClientTestCase(unittest.TestCase):
         # TODO: mock google api server url
 
     def test_delete(self):
+        account_uuid = '68bdf92f-64a4-45ea-a20a-5a31cb92c204'
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          account_uuid='user2')
+                          account_uuid=account_uuid)
 
-        self.assertTrue(self.set_client.delete('user2'))
-        self.assertTrue(self.set_client.set_refresh_token('user2',
+        self.assertTrue(self.set_client.delete(account_uuid))
+        self.assertTrue(self.set_client.set_refresh_token(account_uuid,
                                                           'footoken2'))
-        token = self.get_client.get_refresh_token('user2')
+        token = self.get_client.get_refresh_token(account_uuid)
         self.assertEqual(token, 'footoken2')
-        self.assertTrue(self.set_client.delete('user2'))
+        self.assertTrue(self.set_client.delete(account_uuid))
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
-                          account_uuid='user2')
+                          account_uuid=account_uuid)
 
 if __name__ == '__main__':
     sys.exit(unittest.main())
