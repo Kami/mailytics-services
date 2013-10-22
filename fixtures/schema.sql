@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
   UNIQUE(refresh_token)
 );
 
-CREATE INDEX refresh_token_idx ON refresh_tokens (refresh_token);
+CREATE INDEX IF NOT EXISTS refresh_token_idx ON refresh_tokens (refresh_token);
 COMMIT;
