@@ -11,13 +11,27 @@ from token_storage_client.errors import UserDoesNotExist
 
 class BaseClient(object):
     def __init__(self, server_urls, client_cert, client_key, ca_certs):
-        self._server_urls = server_urls
+        self._server_urls = self._normalize_urls(urls=server_urls)
         self._client_cert = client_cert
         self._client_key = client_key
         self._ca_certs = ca_certs
 
         self._cert_arg = (self._client_cert, self._client_key)
         self._verify_arg = self._ca_certs
+
+    def _normalize_urls(self, urls):
+        """
+        Normalize server URLs (remove trailing slash).
+        """
+        result = []
+
+        for url in urls:
+            if url.endswith('/'):
+                url = url[:-1]
+
+            result.append(url)
+
+        return result
 
 
 class GetClient(BaseClient):
