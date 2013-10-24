@@ -14,7 +14,6 @@ from setuptools import setup
 from distutils.core import Command
 
 sys.path.insert(0, pjoin(os.path.dirname(__file__)))
-from test_utils.process_runners import TCPProcessRunner
 
 THIS_DIR = os.path.abspath(os.path.split(__file__)[0])
 TEST_PATHS = ['tests']
@@ -78,7 +77,7 @@ class TestCommand(Command):
         time.sleep(0.5)
 
     def _run_mock_servers(self):
-        #set_server = TCPProcessRunner()
+        from test_utils.process_runners import TCPProcessRunner
         script = pjoin(THIS_DIR, 'bin/token-storage-get-server')
         args = [script, '--port=8888']
         wait_for_address = ('127.0.0.1', 8888)
