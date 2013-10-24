@@ -95,6 +95,10 @@ class TestCommand(Command):
         set_server.setUp()
 
 
+with open('requirements.txt', 'r') as fp:
+    content = fp.read()
+    requirements = content.split('\n')
+
 setup(
     name='token-storage',
     version='0.1.0',
@@ -102,6 +106,7 @@ setup(
     author_email='tomaz+pypi@tomaz.me',
     packages=['token_storage_server', 'token_storage_client'],
     provides=['token_storage_server', 'token_storage_client'],
+    requires=requirements,
     cmdclass={
         'test': TestCommand,
     },
