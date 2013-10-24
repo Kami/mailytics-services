@@ -1,2 +1,5 @@
 database.sqlite
 *.log
+dist/
+build/
+*.egg-info
