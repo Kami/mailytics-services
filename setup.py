@@ -96,7 +96,7 @@ class TestCommand(Command):
 
 
 with open('requirements.txt', 'r') as fp:
-    content = fp.read()
+    content = fp.read().strip()
     requirements = content.split('\n')
 
 setup(
@@ -106,7 +106,7 @@ setup(
     author_email='tomaz+pypi@tomaz.me',
     packages=['token_storage_server', 'token_storage_client'],
     provides=['token_storage_server', 'token_storage_client'],
-    requires=requirements,
+    install_requires=requirements,
     cmdclass={
         'test': TestCommand,
     },
