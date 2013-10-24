@@ -97,15 +97,12 @@ class TestCommand(Command):
 
 
 setup(
-    name='',
-    version='',
-    description='',
-    #long_description=open('README.rst').read() + '\n\n' +
-    #open('CHANGES.rst').read(),
+    name='token-storage',
+    version='0.1.0',
     author='Tomaz Muraus',
     author_email='tomaz+pypi@tomaz.me',
-    #packages=['yubico_client'],
-    #provides=['yubico_client'],
+    packages=['token_storage_server', 'token_storage_client'],
+    provides=['token_storage_server', 'token_storage_client'],
     cmdclass={
         'test': TestCommand,
     },
