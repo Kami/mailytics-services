@@ -12,7 +12,6 @@ from unittest import TextTestRunner, TestLoader
 
 from setuptools import setup
 from distutils.core import Command
-
 sys.path.insert(0, pjoin(os.path.dirname(__file__)))
 
 THIS_DIR = os.path.abspath(os.path.split(__file__)[0])
@@ -78,6 +77,7 @@ class TestCommand(Command):
 
     def _run_mock_servers(self):
         from test_utils.process_runners import TCPProcessRunner
+
         script = pjoin(THIS_DIR, 'bin/token-storage-get-server')
         args = [script, '--port=8888']
         wait_for_address = ('127.0.0.1', 8888)
@@ -107,7 +107,7 @@ setup(
     version='0.1.0',
     author='Tomaz Muraus',
     author_email='tomaz+pypi@tomaz.me',
-    packages=['token_storage_server', 'token_storage_client'],
+    packages=['token_storage_server', 'token_storage_server.handlers', 'token_storage_client'],
     provides=['token_storage_server', 'token_storage_client'],
     install_requires=requirements,
     cmdclass={
