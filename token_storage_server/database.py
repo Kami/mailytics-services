@@ -41,8 +41,8 @@ def get_refresh_token_for_user(account_uuid):
 def update_user_refresh_token(account_uuid, refresh_token):
     connection = get_connection()
     cursor = connection.cursor()
-    query = ('INSERT OR REPLACE INTO refresh_tokens (account_uuid,refresh_token) '
-             'VALUES (?,?)')
+    query = ('INSERT OR REPLACE INTO refresh_tokens (account_uuid,'
+             'refresh_token) VALUES (?,?)')
     args = [account_uuid, refresh_token]
     cursor.execute(query, args)
     connection.commit()
