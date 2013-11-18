@@ -22,6 +22,8 @@ define('ca_file', default='fixtures/ca/myCA.crt',
        help='Path to the CA file')
 define('database_path', default='database.sqlite',
        help='Path to the database file')
+define('private_keys_path', default='fixtures/keys/private/',
+       help='Path to the directory with private keys used to decryt tokens')
 
 
 def run_server(urls):

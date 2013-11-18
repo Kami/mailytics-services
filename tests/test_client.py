@@ -3,6 +3,8 @@ import sys
 import unittest
 from os.path import join as pjoin
 
+from hybrid_crypto.crypto import HybridCryptoEncrypter
+
 from token_storage_client import GetClient, SetClient
 from token_storage_client.errors import UserDoesNotExist
 
@@ -17,6 +19,9 @@ class ClientTestCase(unittest.TestCase):
 
         kwargs = {'client_cert': client_cert, 'client_key': client_key,
                   'ca_certs': ca_certs}
+
+        keys_path = pjoin(THIS_DIR, '../fixtures/keys/public')
+        self.encrypter = HybridCryptoEncrypter(keys_path=keys_path)
 
         self.get_client = GetClient(server_urls=['https://localhost:8888'],
                                     **kwargs)
@@ -36,13 +41,16 @@ class ClientTestCase(unittest.TestCase):
                           account_uuid='user1')
 
         # get_refresh_token
+        token = self.encrypter.encrypt(data='footoken1')
         self.assertTrue(self.set_client.set_refresh_token('user1',
-                                                          'footoken1'))
+                                                          token))
 
         token = self.get_client.get_refresh_token('user1')
         self.assertEqual(token, 'footoken1')
+
+        token = self.encrypter.encrypt(data='footoken2')
         self.assertTrue(self.set_client.set_refresh_token('user1',
-                                                          'footoken2'))
+                                                          token))
 
         token = self.get_client.get_refresh_token('user1')
         self.assertEqual(token, 'footoken2')
@@ -55,9 +63,10 @@ class ClientTestCase(unittest.TestCase):
         self.assertRaises(UserDoesNotExist, self.get_client.get_refresh_token,
                           account_uuid=account_uuid)
 
+        token = self.encrypter.encrypt(data='footoken2')
         self.assertTrue(self.set_client.delete(account_uuid))
         self.assertTrue(self.set_client.set_refresh_token(account_uuid,
-                                                          'footoken2'))
+                                                          token))
         token = self.get_client.get_refresh_token(account_uuid)
         self.assertEqual(token, 'footoken2')
         self.assertTrue(self.set_client.delete(account_uuid))

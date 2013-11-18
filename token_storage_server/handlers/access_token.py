@@ -2,6 +2,8 @@ import httplib
 
 from tornado.web import HTTPError, asynchronous
 from tornado.gen import engine, Task
+from tornado.options import options
+from hybrid_crypto.crypto import HybridCryptoDecrypter
 
 from token_storage_server.handlers.base import JsonRequestHandler
 from token_storage_server.database import get_refresh_token_for_user
@@ -21,6 +23,9 @@ class AccessTokenHandler(JsonRequestHandler):
         if not refresh_token:
             raise HTTPError(status_code=httplib.NOT_FOUND,
                             log_message='Token not found')
+
+        decrypter = HybridCryptoDecrypter(keys_path=options.private_keys_path)
+        refresh_token = decrypter.decrypt(data=refresh_token)
 
         # TODO: Prevent thundering herd from multiple requests
         result = yield Task(get_new_access_token, refresh_token=refresh_token)
