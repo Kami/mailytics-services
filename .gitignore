@@ -2,4 +2,5 @@ database.sqlite
 *.log
 dist/
 build/
+.tox/
 *.egg-info
