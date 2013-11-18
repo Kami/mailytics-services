@@ -98,6 +98,9 @@ class TestCommand(Command):
 with open('requirements.txt', 'r') as fp:
     content = fp.read().strip()
     requirements = content.split('\n')
+    requirements = [line for line in requirements if line and
+                    not line.startswith('#') and not line.startswith('-e')]
+
 
 setup(
     name='token-storage',
